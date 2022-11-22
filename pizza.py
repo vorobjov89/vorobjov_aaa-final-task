@@ -16,7 +16,9 @@ class Pizza:
         """
         Магический метод, возвращает True, если две пиццы одинаковы, иначе - False
         """
-        return self.size == other.size and self.recipe == other.recipe
+        return (self.size == other.size and
+                self.recipe == other.recipe and
+                self.__class__ == other.__class__)
 
     def dict(self) -> dict:
         """
@@ -29,7 +31,7 @@ class Pizza:
         Магический метод, возвращает информацию о пицце: название, смайлик: ингредиенты
         """
         ingredients = ', '.join(list(self.dict().values()))
-        output = f'- {self.__class__.__name__} {self.emoji}: {ingredients}'
+        output = f'- {type(self).__name__} {self.emoji}: {ingredients}'
         return output
 
     @staticmethod
@@ -48,7 +50,7 @@ class Pizza:
         :return:
         """
         for pizza_item in Pizza.menu():
-            if pizza_item.__name__ == ordered_pizza or pizza_item.__name__.lower() == ordered_pizza:
+            if pizza_item.__name__.lower() == ordered_pizza.lower():
                 return pizza_item
         else:
             print('Такого у нас нет! Лучше попробуйте Маргариту!')
@@ -59,40 +61,38 @@ class Margherita(Pizza):
     """
     Класс описывает пиццу Маргарита
     """
-    def __init__(self, size: str = 'L'):
-        Pizza.__init__(self,
-                       {'sauce': 'tomato sauce',
-                        'cheese': 'mozzarella',
-                        'vegs': 'tomatoes'
-                        },
-                       size,
-                       '🧀',)
+    def __init__(self, recipe: dict = None, size: str = 'L', emoji: str = '🧀'):
+        if recipe is None:
+            recipe = {'sauce': 'tomato sauce',
+                      'cheese': 'mozzarella',
+                      'vegs': 'tomatoes'
+                      }
+        super().__init__(recipe, size, emoji)
 
 
 class Hawaiian(Pizza):
     """
     Класс описывает Гавайскую пиццу
     """
-    def __init__(self, size: str = 'L'):
-        Pizza.__init__(self,
-                       {'sauce': 'tomato sauce',
-                        'cheese': 'mozzarella',
-                        'meet': 'chicken',
-                        'vegs': 'pineapples'
-                        },
-                       size,
-                       '🍍',)
+    def __init__(self, recipe: dict = None, size: str = 'L', emoji: str = '🍍'):
+        if recipe is None:
+            recipe = {'sauce': 'tomato sauce',
+                      'cheese': 'mozzarella',
+                      'meet': 'chicken',
+                      'vegs': 'pineapples'
+                      }
+        super().__init__(recipe, size, emoji)
 
 
 class Pepperoni(Pizza):
     """
     Класс описывает пиццу Пепперони
     """
-    def __init__(self, size: str = 'L'):
-        Pizza.__init__(self,
-                       {'sauce': 'tomato sauce',
-                        'cheese': 'mozzarella',
-                        'meet': 'pepperoni',
-                        },
-                       size,
-                       '🍕',)
+
+    def __init__(self, recipe: dict = None, size: str = 'L', emoji: str = '🍕'):
+        if recipe is None:
+            recipe = {'sauce': 'tomato sauce',
+                      'cheese': 'mozzarella',
+                      'meet': 'pepperoni',
+                      }
+        super().__init__(recipe, size, emoji)

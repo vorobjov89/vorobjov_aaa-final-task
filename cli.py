@@ -39,11 +39,11 @@ def log(template: str):
 
     template: шаблон сообщения, которое выводится при вызове декорируемой функции.
     """
+    t = Template(template)  # Пользуемся Template, чтобы придать функции шаблон сообщения.
+
     def decorator(func):
         def wrapper(*args):
-            func(*args)
             time = randint(1, 10)
-            t = Template(template) # Пользуемся Template, чтобы придать функции шаблон сообщения.
             data = dict(time=time)
             print(t.substitute(data))
             return func(*args)
@@ -51,7 +51,7 @@ def log(template: str):
     return decorator
 
 
-@log(' 🛵  Забрали за $time с!')
+@log(' 🛵  Доставили за $time с!')
 def to_deliver(pizza_to_deliver):
     """
     Доставляем пиццу
